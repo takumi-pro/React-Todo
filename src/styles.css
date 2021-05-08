@@ -20,14 +20,6 @@ button:hover {
   cursor: pointer;
 }
 
-.taskadd-area {
-  background-color: #c1ffff;
-  width: 400px;
-  height: 30px;
-  margin: 8px auto;
-  padding: 8px;
-  border-radius: 8px;
-}
 .imcomplete-area {
   background-color: #c6ffe2;
   width: 400px;

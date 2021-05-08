@@ -1,11 +1,14 @@
 import React, { useState } from "react";
+import { InputTodo } from "./components/InputTodo";
+import { ImcompleteTodos } from "./components/ImcompleteTodos";
+import { CompleteTodos } from "./components/CompleteTodos";
 import "./styles.css";
 
 export const App = () => {
   // console.log("first");
   const [todoText, settodoText] = useState("");
-  const [imcompleteTodos, setimcompleteTodos] = useState(["hi", "hii"]);
-  const [completeTodos, setcompleteTodos] = useState(["complete"]);
+  const [imcompleteTodos, setimcompleteTodos] = useState([]);
+  const [completeTodos, setcompleteTodos] = useState([]);
 
   //inputのchangeイベント
   const onChangeTodoText = (e) => settodoText(e.target.value);
@@ -49,39 +52,25 @@ export const App = () => {
 
   return (
     <>
-      <div className="taskadd-area">
-        <input type="text" value={todoText} onChange={onChangeTodoText} />
-        <button onClick={onClickAdd}>追加</button>
-      </div>
+      <InputTodo
+        todoText={todoText}
+        onChange={onChangeTodoText}
+        onClick={onClickAdd}
+        disabled={imcompleteTodos.length >= 5}
+      ></InputTodo>
+      {imcompleteTodos.length >= 5 && (
+        <p style={{ color: "red" }}>登録上限に達しました</p>
+      )}
+      <ImcompleteTodos
+        todos={imcompleteTodos}
+        onClickComplete={onClickComplete}
+        onClickDelete={onClickDelete}
+      ></ImcompleteTodos>
 
-      <div className="imcomplete-area">
-        <p className="title">未完了のタスク</p>
-        <ul>
-          {imcompleteTodos.map((todo, index) => {
-            return (
-              <div key={todo} className="flex">
-                <li>{todo}</li>
-                <button onClick={() => onClickComplete(index)}>完了</button>
-                <button onClick={() => onClickDelete(index)}>削除</button>
-              </div>
-            );
-          })}
-        </ul>
-      </div>
-
-      <div className="complete-area">
-        <p className="title">完了タスク</p>
-        <ul>
-          {completeTodos.map((todo, index) => {
-            return (
-              <div className="flex">
-                <li>{todo}</li>
-                <button onClick={() => onClickBack(index)}>戻す</button>
-              </div>
-            );
-          })}
-        </ul>
-      </div>
+      <CompleteTodos
+        todos={completeTodos}
+        onClickBack={onClickBack}
+      ></CompleteTodos>
     </>
   );
 };
